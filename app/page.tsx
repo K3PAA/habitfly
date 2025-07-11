@@ -1,103 +1,143 @@
-import Image from "next/image";
+import { ModeToggle } from '@/components/ThemeButton'
+import { Button } from '@/components/ui/button'
+import Wrapper from '@/components/Wrapper'
+import Image from 'next/image'
+import Link from 'next/link'
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <header className='bg-foreground'>
+        <Wrapper className='grid gap-4 py-4 sm:grid-cols-2'>
+          <p className='text-background text-3xl font-bold' aria-label='logo'>
+            Habit<span className='text-primary'>fly</span>
+          </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+          <section className='flex items-center gap-4 sm:justify-self-end'>
+            <AuthButtons />
+            <ModeToggle />
+          </section>
+        </Wrapper>
+      </header>
+
+      <main>
+        <Wrapper className='grid md:grid-cols-2'>
+          <section className='pt-24'>
+            <h1 className='text-6xl font-bold'>
+              Make tracking your habits simple
+            </h1>
+
+            <p className='text-foreground/70 mt-4 max-w-[40ch] text-lg'>
+              Our goal is{' '}
+              <span className='text-foreground'>
+                to make trcking your habits and goals as easy as possible{' '}
+              </span>
+              . That way you are more likely to stick to them and introduce them
+              to your daily life. To access our application please{' '}
+              <Link href='/login' className='text-primary font-bold'>
+                login
+              </Link>{' '}
+              or{' '}
+              <Link href='/register ' className='text-secondary font-bold'>
+                register
+              </Link>
+              .
+            </p>
+
+            <section className='mt-8 flex items-center gap-4'>
+              <AuthButtons />
+            </section>
+          </section>
+          {/* Image of working application */}
+        </Wrapper>
+
+        <Wrapper>
+          <h2 className='mt-40 text-center text-4xl font-bold sm:text-6xl'>
+            Why choose us ?
+          </h2>
+
+          <ul className='mt-12 grid place-content-center gap-3'>
+            <Card
+              title='Tracking Habits made simple'
+              desc='With our friendly interface making your habit list is really easy. It
+          will take you only few minutes and will last forever.'
+              src='/home/1.svg'
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+            <Card
+              title='Make your habits stick'
+              desc='With tracking your habits you are more likely to stick to them. With using our application you greatly increases your chances of creating lasting changes.'
+              src='/home/2.svg'
+            />
+            <Card
+              title='Make your journey satisfying'
+              desc='With modern interface and graphs you will see your progress easily. This will result in more motivation and satisfaction as you push through your habits.'
+              src='/home/3.svg'
+            />
+          </ul>
+        </Wrapper>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className='bg-foreground text-background mt-16 text-center font-bold'>
+        <Wrapper className='p-8'>
+          <p>
+            Created by{' '}
+            <a
+              href='https://github.com/K3PAA'
+              className='underline underline-offset-4 transition-opacity duration-200 hover:opacity-80 focus:opacity-80'
+            >
+              @K3PAA
+            </a>
+          </p>
+        </Wrapper>
       </footer>
-    </div>
-  );
+    </>
+  )
+}
+type CardProps = {
+  title: string
+  desc: string
+  src: string
+}
+function Card({ title, desc, src }: CardProps) {
+  return (
+    <li className='border-foreground/8 grid rounded-2xl border-2 p-6 sm:grid-cols-[250px_auto] sm:gap-10 md:p-10'>
+      <Image
+        src={src}
+        width={800}
+        height={619}
+        alt='illustration'
+        className='mx-auto max-w-[300px] sm:mx-0 sm:max-w-[250px]'
+      />
+      <section className='mt-4 text-center sm:mt-0 sm:text-left'>
+        <h3 className='text-4xl font-bold sm:text-2xl md:text-4xl'>{title}</h3>
+        <p className='text-foreground/70 sm:text-md mt-4 max-w-[35ch] text-xl md:text-lg'>
+          {desc}
+        </p>
+      </section>
+    </li>
+  )
+}
+
+function AuthButtons() {
+  return (
+    <>
+      <Button
+        variant='default'
+        asChild
+        className='font-bold uppercase'
+        size='lg'
+      >
+        <Link href='/login'>Login</Link>
+      </Button>
+
+      <Button
+        variant='secondary'
+        asChild
+        className='font-bold uppercase'
+        size='lg'
+      >
+        <Link href='/register'>Register</Link>
+      </Button>
+    </>
+  )
 }
