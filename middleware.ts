@@ -12,9 +12,5 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: [
-    // Protect these specific routes instead of excluding everything
-    '/habits/:path*',
-    // Add other protected routes as needed
-  ],
+  matcher: ['/habits/:path*', '/goals', '/profile'],
 }
