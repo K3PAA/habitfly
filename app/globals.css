@@ -120,3 +120,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .even-grid {
+    --grid-cell: 350px;
+
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(100%, var(--grid-cell)), 1fr)
+    );
+  }
+}
