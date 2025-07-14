@@ -16,9 +16,27 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useRef } from 'react'
+import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from '@/components/ui/select'
+import { usePathname } from 'next/navigation'
 
 export default function CreateHabitDialog() {
   const formRef = useRef<HTMLFormElement>(null)
+  const pathname = usePathname()
+
+  // Helper to extract habit type from path
+  const getHabitType = () => {
+    if (pathname?.includes('/habits/daily')) return 'daily'
+    if (pathname?.includes('/habits/weekly')) return 'weekly'
+    if (pathname?.includes('/habits/monthly')) return 'monthly'
+    return 'daily' // default fallback
+  }
 
   return (
     <Dialog>
@@ -35,8 +53,7 @@ export default function CreateHabitDialog() {
           ref={formRef}
           action={async (formData) => {
             formRef.current?.reset()
-            console.log(formData.get('goal'))
-
+            formData.set('mode', getHabitType())
             const res = await createHabit(formData)
             console.log(res)
           }}
@@ -69,6 +86,28 @@ export default function CreateHabitDialog() {
               name='description'
               placeholder='e.g. I want to perform {habit} in {location} after {previous activity}.'
             />
+          </div>
+
+          <div className='grid w-full max-w-sm items-center gap-3'>
+            <Label htmlFor='timeOfDay'>
+              When do you want to do this habit?
+            </Label>
+            <Select name='timeOfDay' defaultValue='any_time'>
+              <SelectTrigger id='timeOfDay'>
+                <SelectValue placeholder='Any time' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='morning'>Morning</SelectItem>
+                <SelectItem value='afternoon'>Afternoon</SelectItem>
+                <SelectItem value='evening'>Evening</SelectItem>
+                <SelectItem value='any_time'>Any time</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className='flex items-center gap-2'>
+            <Checkbox id='important' name='important' />
+            <Label htmlFor='important'>Is this goal important for you ?</Label>
           </div>
 
           <DialogFooter>

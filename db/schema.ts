@@ -6,7 +6,24 @@ import {
   text,
   timestamp,
   varchar,
+  boolean,
+  pgEnum,
 } from 'drizzle-orm/pg-core'
+
+// Enum for time of day
+export const timeOfDayEnum = pgEnum('time_of_day', [
+  'morning',
+  'afternoon',
+  'evening',
+  'any_time',
+])
+
+// Enum for habit type
+export const habitModeEnum = pgEnum('habit_mode', [
+  'daily',
+  'weekly',
+  'monthly',
+])
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
@@ -27,11 +44,28 @@ export const habits = pgTable('habits', {
 
   title: varchar({ length: 25 }).unique().notNull(),
   description: text(),
-  note: text(),
-  progressCurrent: integer('progress_current').default(0),
-  progressToGo: integer('progress_to_go').notNull().default(1),
-  timeOfDay: text().default('any_time'),
+  important: boolean().default(false),
 
+  mode: habitModeEnum('mode').notNull().default('daily'),
+  progressToGo: integer('progress_to_go').notNull().default(1),
+  timeOfDay: timeOfDayEnum('time_of_day').notNull().default('any_time'),
+
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+})
+
+// New table for daily habit entries
+export const habitEntries = pgTable('habit_entries', {
+  id: serial('id').primaryKey(),
+  habitId: integer('habit_id')
+    .notNull()
+    .references(() => habits.id),
+  date: timestamp('date').notNull(), // The day the entry is for
+  note: text(), // How the user felt that day
+  progressCurrent: integer('progress_current').default(0), // Progress for that day
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()
@@ -56,9 +90,17 @@ export const usersRelations = relations(users, ({ many }) => ({
   habits: many(habits),
 }))
 
-export const habitsRelations = relations(habits, ({ one }) => ({
+export const habitsRelations = relations(habits, ({ one, many }) => ({
   users: one(users, {
     fields: [habits.userId],
     references: [users.id],
+  }),
+  entries: many(habitEntries),
+}))
+
+export const habitEntriesRelations = relations(habitEntries, ({ one }) => ({
+  habit: one(habits, {
+    fields: [habitEntries.habitId],
+    references: [habits.id],
   }),
 }))

@@ -1,7 +1,7 @@
 'use server'
 
 import { db } from '@/db'
-import { habits, users } from '@/db/schema'
+import { habits, timeOfDayEnum, habitModeEnum, users } from '@/db/schema'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
@@ -23,8 +23,11 @@ export const selectUserOrCreate = async (id: string) => {
 
 const HabitCreation = z.object({
   title: z.string().nonempty(),
-  progressToGo: z.number().min(1),
   description: z.string(),
+  important: z.boolean(),
+  mode: z.enum(habitModeEnum.enumValues),
+  progressToGo: z.number().min(1),
+  timeOfDay: z.enum(timeOfDayEnum.enumValues),
 })
 
 export const createHabit = async (formData: FormData) => {
@@ -40,6 +43,9 @@ export const createHabit = async (formData: FormData) => {
     title: formData.get('title'),
     description: formData.get('description'),
     progressToGo: Number(formData.get('goal')),
+    important: formData.get('important') === 'on',
+    mode: formData.get('mode') ?? 'daily',
+    timeOfDay: formData.get('timeOfDay') ?? 'any_time',
   }
 
   const result = await HabitCreation.safeParseAsync(rawData)

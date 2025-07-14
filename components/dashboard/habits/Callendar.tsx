@@ -11,6 +11,7 @@ import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from 'lucide-react'
 import { useState } from 'react'
 import { CalendarDayButton } from './CalendarDayButton'
 import { CalendarNavButton } from './CalendarNavButton'
+import HabitsStatusFilter from './HabitsStatusFilter'
 
 export default function Callendar() {
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -81,9 +82,10 @@ export default function Callendar() {
   }
 
   return (
-    <div className='flex flex-col items-center gap-2'>
-      <div className='mb-1 flex items-center text-lg font-semibold'>
+    <div className='flex flex-col items-start gap-2'>
+      <div className='mb-1 flex w-full items-center justify-between text-lg font-semibold'>
         {datePickerTrigger}
+        <HabitsStatusFilter />
       </div>
       <section className='bg-card border-border grid max-w-[700px] grid-cols-9 gap-2 rounded-xl border p-2 shadow-md'>
         <CalendarNavButton

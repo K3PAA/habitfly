@@ -7,10 +7,11 @@ import { capitalizeFirst } from '@/lib/utils'
 export default function Habit({
   id,
   description,
+  important,
   title,
   progressToGo,
-  progressCurrent,
-  // timeOfDay, // not used for now
+  progressCurrent = 0,
+  timeOfDay,
 }: HabitT) {
   return (
     <section className='bg-card border-border text-card-foreground flex w-full max-w-md flex-col gap-3 rounded-2xl border p-4 shadow-md'>
@@ -19,7 +20,7 @@ export default function Habit({
           <div className='flex items-center gap-2'>
             <Clock className='text-muted-foreground h-5 w-5' />
             <span className='text-muted-foreground mt-[2px] text-xs font-medium'>
-              6:30pm
+              {timeOfDay}
             </span>
           </div>
           <h3 className='text-primary text-2xl font-bold capitalize'>
@@ -32,10 +33,8 @@ export default function Habit({
       </div>
       <p className='mb-2 text-sm'>{capitalizeFirst(description)}</p>
       <div className='flex items-center justify-between'>
-        <div className='flex gap-2'>
-          <Badge variant='destructive'>important</Badge>
-          <Badge variant='secondary'>focus</Badge>
-        </div>
+        {important && <Badge variant='destructive'>important</Badge>}
+
         <Button className='text-accent text-xs underline' variant='link'>
           Edit
         </Button>

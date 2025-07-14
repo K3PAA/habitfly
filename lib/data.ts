@@ -24,8 +24,12 @@ export const navLinks = [
     text: 'view your profile',
   },
   {
-    to: '/habits',
     text: 'habits',
+    children: [
+      { to: '/habits/daily', text: 'daily' },
+      { to: '/habits/weekly', text: 'weekly' },
+      { to: '/habits/monthly', text: 'monthly' },
+    ],
   },
   {
     to: '/goals',

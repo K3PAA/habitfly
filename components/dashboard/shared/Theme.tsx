@@ -20,7 +20,7 @@ export default function Theme() {
 
   return (
     <button
-      className='bg-background/60 mt-auto flex w-full cursor-pointer items-center justify-center gap-3 rounded-sm py-4'
+      className='bg-card/90 mt-auto flex w-full cursor-pointer items-center justify-center gap-3 rounded-sm py-4'
       onClick={handleTheme}
     >
       <span className='sr-only'>toggle theme button</span>
