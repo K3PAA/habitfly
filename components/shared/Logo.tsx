@@ -6,7 +6,7 @@ type LogoProps = {
 export default function Logo({ className }: LogoProps) {
   return (
     <p
-      className={cn('text-background text-3xl font-bold', className)}
+      className={cn('text-foreground text-3xl font-bold', className)}
       aria-label='logo'
     >
       Habit<span className='text-primary'>fly</span>

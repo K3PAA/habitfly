@@ -6,8 +6,9 @@ import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import * as z from 'zod'
 
-const selectUserOrCreate = async (id: string) => {
+export const selectUserOrCreate = async (id: string) => {
   const [existing] = await db.select().from(users).where(eq(users.kindeId, id))
   if (existing) return existing
 
@@ -20,6 +21,12 @@ const selectUserOrCreate = async (id: string) => {
   return inserted[0]
 }
 
+const HabitCreation = z.object({
+  title: z.string().nonempty(),
+  progressToGo: z.number().min(1),
+  description: z.string(),
+})
+
 export const createHabit = async (formData: FormData) => {
   const { isAuthenticated, getUser } = getKindeServerSession()
 
@@ -28,11 +35,24 @@ export const createHabit = async (formData: FormData) => {
   if (!isLogged || !kindeUser) return redirect('/')
 
   const user = await selectUserOrCreate(kindeUser.id)
-  await db.insert(habits).values({
-    // error in console if title not unique
-    title: 'test2',
-    userId: user.id,
-  })
+
+  const rawData = {
+    title: formData.get('title'),
+    description: formData.get('description'),
+    progressToGo: Number(formData.get('goal')),
+  }
+
+  const result = await HabitCreation.safeParseAsync(rawData)
+
+  if (!result.success) return { error: result.error }
+  try {
+    await db.insert(habits).values({
+      ...result.data,
+      userId: user.id,
+    })
+  } catch (error) {
+    return { error: error }
+  }
 
   revalidatePath('/habits')
 }

@@ -35,20 +35,28 @@ export default function CreateHabitDialog() {
           ref={formRef}
           action={async (formData) => {
             formRef.current?.reset()
-            console.log('sub')
-            await createHabit(formData)
+            console.log(formData.get('goal'))
+
+            const res = await createHabit(formData)
+            console.log(res)
           }}
+          className='grid gap-2'
         >
           <div className='grid w-full max-w-sm items-center gap-3'>
             <Label htmlFor='title'>What are you trying to do ?</Label>
-            <Input type='text' id='title' placeholder='Name your habit' />
+            <Input
+              type='text'
+              name='title'
+              id='title'
+              placeholder='Name your habit'
+            />
           </div>
 
           <div className='grid w-full max-w-sm items-center gap-3'>
             <Label htmlFor='goal'>
               How many times a day would you like to do it ?
             </Label>
-            <Input type='number' id='goal' min={1} />
+            <Input type='number' id='goal' name='goal' min={1} />
           </div>
 
           <div className='grid w-full max-w-sm items-center gap-3'>
@@ -56,8 +64,9 @@ export default function CreateHabitDialog() {
               What is your goal with this habit ?
             </Label>
             <Textarea
-              className='h-16 max-h-40'
+              className='max-h-40'
               id='description'
+              name='description'
               placeholder='e.g. I want to perform {habit} in {location} after {previous activity}.'
             />
           </div>
