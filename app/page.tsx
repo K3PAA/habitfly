@@ -1,37 +1,34 @@
 import Card from '@/components/home/Card'
-import { ModeToggle } from '@/components/ThemeButton'
 
 import Wrapper from '@/components/shared/Wrapper'
 import { home } from '@/lib/data'
 
+import Footer from '@/components/home/Footer'
+import Header from '@/components/home/Header'
 import LoginButton from '@/components/shared/LoginButton'
 import RegisterButton from '@/components/shared/RegisterButton'
-import Footer from '@/components/home/Footer'
-import Logo from '@/components/shared/Logo'
+import Image from 'next/image'
 
-export default function Page() {
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
+import { redirect } from 'next/navigation'
+
+export default async function Page() {
+  const { isAuthenticated } = getKindeServerSession()
+  if (await isAuthenticated()) {
+    redirect('/habits/daily')
+  }
+
   return (
-    <>
-      <header className='bg-foreground'>
-        <Wrapper className='grid gap-4 py-4 sm:grid-cols-2'>
-          <Logo />
-
-          <section className='flex items-center gap-4 sm:justify-self-end'>
-            <LoginButton />
-            <RegisterButton />
-            <ModeToggle />
-          </section>
-        </Wrapper>
-      </header>
-
+    <div className='bg-background min-h-screen w-full'>
+      <Header />
       <main>
-        <Wrapper className='grid md:grid-cols-2'>
-          <section className='pt-24'>
-            <h1 className='text-6xl font-bold'>
+        <Wrapper className='flex flex-col-reverse items-center justify-center gap-12 py-16 md:grid md:grid-cols-2 md:gap-8 md:py-24'>
+          <section className='flex flex-col items-center gap-8 md:items-start md:justify-center'>
+            <h1 className='text-center text-4xl font-bold sm:text-5xl md:text-left lg:text-6xl'>
               Make tracking your habits simple
             </h1>
 
-            <p className='text-foreground/70 mt-4 max-w-[40ch] text-lg'>
+            <p className='text-foreground/70 max-w-[40ch] text-center text-lg md:text-left'>
               Our goal is{' '}
               <span className='text-foreground'>
                 to make trcking your habits and goals as easy as possible{' '}
@@ -41,20 +38,30 @@ export default function Page() {
               register.
             </p>
 
-            <section className='mt-8 flex items-center gap-4'>
+            <div className='flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row md:justify-start'>
               <LoginButton />
               <RegisterButton />
-            </section>
+            </div>
           </section>
-          {/* Image of working application */}
+
+          <div className='flex w-full items-center justify-center'>
+            <Image
+              src='/home/home.svg'
+              width={800}
+              height={619}
+              alt='Home page image'
+              className='h-auto w-full max-w-[400px] rounded-xl drop-shadow-xl md:max-w-[600px] lg:max-w-[800px]'
+              priority
+            />
+          </div>
         </Wrapper>
 
         <Wrapper>
-          <h2 className='mt-40 text-center text-4xl font-bold sm:text-6xl'>
+          <h2 className='mt-32 text-center text-3xl font-bold sm:text-4xl md:text-6xl'>
             Why choose us ?
           </h2>
 
-          <ul className='mt-12 grid place-content-center gap-3'>
+          <ul className='mt-12 grid place-content-center gap-6'>
             {home.whyUs.map((card) => {
               return <Card key={card.title} {...card} />
             })}
@@ -63,6 +70,6 @@ export default function Page() {
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }

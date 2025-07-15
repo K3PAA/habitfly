@@ -3,7 +3,7 @@ import Wrapper from '@/components/shared/Wrapper'
 
 export default function Footer() {
   return (
-    <footer className='bg-foreground text-background mt-16 text-center font-bold'>
+    <footer className='bg-background text-foreground border-border mt-16 border-t text-center font-bold shadow-lg'>
       <Wrapper className='p-8'>
         <p>
           Created by{' '}

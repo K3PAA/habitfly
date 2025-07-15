@@ -8,17 +8,19 @@ type CardProps = {
 
 export default function Card({ title, desc, src }: CardProps) {
   return (
-    <li className='border-foreground/8 grid rounded-2xl border-2 p-6 sm:grid-cols-[250px_auto] sm:gap-10 md:p-10'>
-      <Image
-        src={src}
-        width={800}
-        height={619}
-        alt='illustration'
-        className='mx-auto max-w-[300px] sm:mx-0 sm:max-w-[250px]'
-      />
-      <section className='mt-4 text-center sm:mt-0 sm:text-left'>
-        <h3 className='text-4xl font-bold sm:text-2xl md:text-4xl'>{title}</h3>
-        <p className='text-foreground/70 sm:text-md mt-4 max-w-[35ch] text-xl md:text-lg'>
+    <li className='bg-card border-foreground/8 mx-auto flex max-w-3xl flex-col items-center overflow-hidden rounded-2xl border-2 p-6 shadow-md md:flex-row md:items-start md:p-10'>
+      <div className='flex w-full flex-shrink-0 items-center justify-center sm:w-[220px]'>
+        <Image
+          src={src}
+          width={220}
+          height={170}
+          alt='illustration'
+          className='h-auto w-full max-w-[220px] rounded-xl object-contain'
+        />
+      </div>
+      <section className='mt-6 flex flex-1 flex-col justify-center text-center sm:mt-0 sm:ml-8 md:text-left'>
+        <h3 className='text-2xl font-bold md:text-3xl'>{title}</h3>
+        <p className='text-foreground/70 mx-auto mt-4 max-w-prose text-lg sm:mx-0 md:text-xl'>
           {desc}
         </p>
       </section>
