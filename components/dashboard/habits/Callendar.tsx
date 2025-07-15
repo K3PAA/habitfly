@@ -87,13 +87,13 @@ export default function Callendar() {
         {datePickerTrigger}
         <HabitsStatusFilter />
       </div>
-      <section className='bg-card border-border grid max-w-[700px] grid-cols-9 gap-2 rounded-xl border p-2 shadow-md'>
+      <section className='bg-card border-border mx-auto grid max-w-[700px] grid-cols-9 gap-2 rounded-xl border p-2 shadow-md'>
         <CalendarNavButton
           direction='prev'
           onClick={() =>
             setCurrentDate((prev) => {
               const d = new Date(prev)
-              d.setDate(prev.getDate() - 3)
+              d.setDate(prev.getDate() - 1)
               return d
             })
           }
@@ -106,7 +106,7 @@ export default function Callendar() {
           onClick={() =>
             setCurrentDate((prev) => {
               const d = new Date(prev)
-              d.setDate(prev.getDate() + 3)
+              d.setDate(prev.getDate() + 1)
               return d
             })
           }

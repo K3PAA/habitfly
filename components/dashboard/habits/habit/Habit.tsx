@@ -3,16 +3,32 @@ import { Badge } from '@/components/ui/badge'
 import { HabitT } from '@/lib/types'
 import { Clock } from 'lucide-react'
 import { capitalizeFirst } from '@/lib/utils'
+import { db } from '@/db'
+import { habitEntries } from '@/db/schema'
+import { and, eq, sql } from 'drizzle-orm'
+import IncreaseButton from './IncreaseButton'
+import DeleteHabitButton from './DeleteHabitButton'
 
-export default function Habit({
+export default async function Habit({
   id,
   description,
   important,
   title,
-  progressToGo,
-  progressCurrent = 0,
   timeOfDay,
 }: HabitT) {
+  const today = new Date().toISOString().split('T')[0]
+  const [entry] = await db
+    .select()
+    .from(habitEntries)
+    .where(
+      and(
+        eq(habitEntries.habitId, id),
+        sql`DATE(${habitEntries.date}) = ${today}`,
+      ),
+    )
+
+  if (!entry) return
+
   return (
     <section className='bg-card border-border text-card-foreground flex w-full max-w-md flex-col gap-3 rounded-2xl border p-4 shadow-md'>
       <div className='flex items-center justify-between'>
@@ -27,17 +43,22 @@ export default function Habit({
             {title}
           </h3>
         </div>
-        <button className='border-primary text-primary bg-card flex h-12 w-12 items-center justify-center rounded-full border-2 text-lg font-bold shadow-sm'>
-          {progressCurrent}/{progressToGo}
-        </button>
+        <IncreaseButton
+          entryId={entry.id}
+          progressCurrent={entry.progressCurrent}
+          progressToGo={entry.progressToGo}
+        />
       </div>
       <p className='mb-2 text-sm'>{capitalizeFirst(description)}</p>
       <div className='flex items-center justify-between'>
         {important && <Badge variant='destructive'>important</Badge>}
 
-        <Button className='text-accent text-xs underline' variant='link'>
-          Edit
-        </Button>
+        <div>
+          <DeleteHabitButton habitId={id} title={title} />
+          <Button className='text-accent p-1 text-xs underline' variant='link'>
+            Edit
+          </Button>
+        </div>
       </div>
     </section>
   )

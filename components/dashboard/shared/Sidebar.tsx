@@ -12,18 +12,6 @@ export default function Sidebar() {
   const habitsButtonRef = useRef<HTMLButtonElement>(null)
   const habitsDropdownRef = useRef<HTMLDivElement>(null)
 
-  // Helper to open dropdown on focus
-  const handleFocus = () => setHabitsOpen(true)
-  // Helper to close dropdown on blur, but only if focus moves outside dropdown
-  const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
-    if (
-      !habitsDropdownRef.current?.contains(e.relatedTarget as Node) &&
-      !habitsButtonRef.current?.contains(e.relatedTarget as Node)
-    ) {
-      setHabitsOpen(false)
-    }
-  }
-
   return (
     <aside className='bg-card border-border text-card-foreground grid min-h-screen grid-rows-[5rem_1fr] border-r'>
       <Logo className='border-border flex items-center border-b px-4' />
@@ -39,8 +27,6 @@ export default function Sidebar() {
                     ref={habitsButtonRef}
                     className='group focus:bg-primary/10 flex w-full cursor-pointer items-center justify-between rounded-md py-2 pl-4 text-left capitalize transition-colors'
                     onClick={() => setHabitsOpen((open) => !open)}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
                     aria-expanded={habitsOpen}
                   >
                     <span className='text-card-foreground group-focus:text-primary block transition-all duration-300'>
@@ -52,8 +38,6 @@ export default function Sidebar() {
                   </button>
                   <div
                     ref={habitsDropdownRef}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
                     className={
                       'overflow-hidden transition-all duration-500 ' +
                       (habitsOpen

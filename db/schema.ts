@@ -47,7 +47,7 @@ export const habits = pgTable('habits', {
   important: boolean().default(false),
 
   mode: habitModeEnum('mode').notNull().default('daily'),
-  progressToGo: integer('progress_to_go').notNull().default(1),
+
   timeOfDay: timeOfDayEnum('time_of_day').notNull().default('any_time'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
@@ -57,7 +57,6 @@ export const habits = pgTable('habits', {
     .$onUpdate(() => new Date()),
 })
 
-// New table for daily habit entries
 export const habitEntries = pgTable('habit_entries', {
   id: serial('id').primaryKey(),
   habitId: integer('habit_id')
@@ -65,7 +64,8 @@ export const habitEntries = pgTable('habit_entries', {
     .references(() => habits.id),
   date: timestamp('date').notNull(), // The day the entry is for
   note: text(), // How the user felt that day
-  progressCurrent: integer('progress_current').default(0), // Progress for that day
+  progressCurrent: integer('progress_current').notNull().default(0), // Progress for that day
+  progressToGo: integer('progress_to_go').notNull().default(1),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()

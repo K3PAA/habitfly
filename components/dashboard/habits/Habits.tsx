@@ -1,9 +1,9 @@
 import { db } from '@/db'
 import { habits } from '@/db/schema'
-import Habit from './Habit'
+import Habit from './habit/Habit'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { eq, and } from 'drizzle-orm'
-import { selectUserOrCreate } from '@/app/actions/actions'
+import { selectUserOrCreate } from '@/lib/user'
 
 type HabitsProps = {
   mode: (typeof habits.$inferSelect)['mode']

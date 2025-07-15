@@ -1,0 +1,1 @@
+ALTER TABLE "habit_entries" ALTER COLUMN "progress_current" SET NOT NULL;

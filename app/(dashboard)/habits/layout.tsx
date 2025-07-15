@@ -9,14 +9,14 @@ export default function HabitsLayout({
   children: React.ReactNode
 }) {
   return (
-    <section className=''>
-      <header className='bg-card border-border text-card-foreground flex h-20 items-center border-r border-b p-4'>
+    <>
+      <header className='bg-card border-border text-card-foreground flex h-20 items-center border-b p-4'>
         <nav className='flex flex-1 items-center justify-between'>
           <HabitsNavLinks />
         </nav>
         <CreateHabitDialog />
       </header>
       {children}
-    </section>
+    </>
   )
 }
