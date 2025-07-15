@@ -1,4 +1,5 @@
 'use client'
+import { useDashboardData } from '@/app/contexts/DashboardDataContext'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Popover,
@@ -11,14 +12,13 @@ import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from 'lucide-react'
 import { useState } from 'react'
 import { CalendarDayButton } from './CalendarDayButton'
 import { CalendarNavButton } from './CalendarNavButton'
-import HabitsStatusFilter from './HabitsStatusFilter'
 
 export default function Callendar() {
-  const [currentDate, setCurrentDate] = useState(new Date())
+  const { selectedDate, setSelectedDate } = useDashboardData()
   const [pickerOpen, setPickerOpen] = useState(false)
 
   // Month and year for header
-  const monthYear = format(currentDate, 'yyyy LLL')
+  const monthYear = format(selectedDate, 'yyyy LLL')
 
   // Date picker popover trigger (now in header)
   const datePickerTrigger = (
@@ -48,9 +48,9 @@ export default function Callendar() {
       >
         <Calendar
           mode='single'
-          selected={currentDate}
+          selected={selectedDate}
           onSelect={(date) => {
-            if (date) setCurrentDate(date)
+            if (date) setSelectedDate(date)
             setPickerOpen(false)
           }}
           initialFocus
@@ -63,8 +63,8 @@ export default function Callendar() {
   const additionalButtons = 3
   const days = []
   for (let i = -additionalButtons; i <= additionalButtons; i++) {
-    const date = new Date(currentDate)
-    date.setDate(currentDate.getDate() + i)
+    const date = new Date(selectedDate)
+    date.setDate(selectedDate.getDate() + i)
     const { dayNumber, dayShort } = getDayInfo(date)
     const isToday = sameDayOfYear(date, new Date())
     const isSelected = i === 0
@@ -76,26 +76,24 @@ export default function Callendar() {
         dayNumber={dayNumber}
         isToday={isToday}
         isSelected={isSelected}
-        onClick={setCurrentDate}
+        onClick={setSelectedDate}
       />,
     )
   }
 
   return (
-    <div className='flex flex-col items-start gap-2'>
-      <div className='mb-1 flex w-full items-center justify-between text-lg font-semibold'>
-        {datePickerTrigger}
-        <HabitsStatusFilter />
-      </div>
-      <section className='bg-card border-border mx-auto grid max-w-[700px] grid-cols-9 gap-2 rounded-xl border p-2 shadow-md'>
+    <div className='flex items-center justify-between gap-2'>
+      <section className='bg-card border-border flex gap-2 rounded-xl border p-2 shadow-md'>
         <CalendarNavButton
           direction='prev'
           onClick={() =>
-            setCurrentDate((prev) => {
-              const d = new Date(prev)
-              d.setDate(prev.getDate() - 1)
-              return d
-            })
+            setSelectedDate(
+              new Date(
+                selectedDate.getFullYear(),
+                selectedDate.getMonth(),
+                selectedDate.getDate() - 1,
+              ),
+            )
           }
         >
           <ArrowLeftCircleIcon />
@@ -104,16 +102,20 @@ export default function Callendar() {
         <CalendarNavButton
           direction='next'
           onClick={() =>
-            setCurrentDate((prev) => {
-              const d = new Date(prev)
-              d.setDate(prev.getDate() + 1)
-              return d
-            })
+            setSelectedDate(
+              new Date(
+                selectedDate.getFullYear(),
+                selectedDate.getMonth(),
+                selectedDate.getDate() + 1,
+              ),
+            )
           }
         >
           <ArrowRightCircleIcon />
         </CalendarNavButton>
       </section>
+
+      {datePickerTrigger}
     </div>
   )
 }

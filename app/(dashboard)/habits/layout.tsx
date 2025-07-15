@@ -1,5 +1,4 @@
-'use client'
-
+import { DashboardDataProvider } from '@/app/contexts/DashboardDataContext'
 import CreateHabitDialog from '@/components/dashboard/habits/CreateHabitDialog'
 import HabitsNavLinks from '@/components/dashboard/habits/HabitsNavLinks'
 
