@@ -1,7 +1,6 @@
 import { useDashboardData } from '@/app/contexts/DashboardDataContext'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { format } from 'date-fns'
 
 export default function HabitsNotFound({ className }: { className?: string }) {
   const { setSelectedDate } = useDashboardData()
@@ -27,7 +26,7 @@ export default function HabitsNotFound({ className }: { className?: string }) {
       </p>
 
       <Button onClick={handleGoToToday} className='mt-6'>
-        check today's habits
+        check today&apos;s habits
       </Button>
     </div>
   )

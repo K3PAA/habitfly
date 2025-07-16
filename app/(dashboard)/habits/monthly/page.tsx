@@ -1,5 +1,4 @@
 import Fallback from '@/components/dashboard/habits/Fallback'
-import Habits from '@/components/dashboard/habits/Habits'
 import HabitsLoader from '@/components/dashboard/habits/HabitsLoader'
 import { Suspense } from 'react'
 

@@ -1,7 +1,6 @@
 import Sidebar from '@/components/dashboard/shared/Sidebar'
 import React from 'react'
 import { DashboardDataProvider } from '../contexts/DashboardDataContext'
-import HabitsFilterOptions from '@/components/dashboard/habits/HabitsFilterOptions'
 
 type LayoutProps = {
   children: React.ReactNode

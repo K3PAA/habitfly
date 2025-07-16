@@ -1,6 +1,5 @@
 import Fallback from '@/components/dashboard/habits/Fallback'
 import HabitsLoader from '@/components/dashboard/habits/HabitsLoader'
-import Loader from '@/components/shared/Loader'
 import { Suspense } from 'react'
 
 export default function WeeklyHabitsPage() {
